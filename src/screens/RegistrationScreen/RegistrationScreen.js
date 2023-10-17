@@ -3,6 +3,8 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { db } from '../../firebase/config';
+import { addDoc, collection } from 'firebase/firestore';
 
 export default function RegistrationScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -28,6 +30,12 @@ export default function RegistrationScreen({ navigation }) {
         password
       );
       const user = userCredential.user;
+
+      const userDocRef = await addDoc(collection(db, 'users'), {
+        fullName: fullName,
+        email: email,
+      });
+
       //TODO: Handle user creation success here
     } catch (error) {
       const errorCode = error.code;
