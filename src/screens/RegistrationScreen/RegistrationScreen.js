@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function RegistrationScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -16,6 +17,28 @@ export default function RegistrationScreen({ navigation }) {
 
   const onFooterLinkPress = () => {
     navigation.navigate('Login');
+  };
+
+  const onRegisterPress = async () => {
+    if (password !== confirmPassword) {
+      alert("Passwords don't match.");
+      return;
+    }
+
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      //TODO: Handle user creation success here
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage); // TODO: Handle the error here
+    }
   };
 
   return (
