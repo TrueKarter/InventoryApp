@@ -37,6 +37,8 @@ export default function RegistrationScreen({ navigation }) {
       });
 
       //TODO: Handle user creation success here
+      alert('Account made successfully');
+      navigation.navigate('Login');
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;

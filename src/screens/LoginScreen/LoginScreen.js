@@ -1,29 +1,38 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   ImageBackground,
-  Pressable,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
-import styles from "./styles";
+} from 'react-native';
+import styles from './styles';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onSingUpPress = () => {
-    navigation.navigate("Registration");
+    navigation.navigate('Registration');
   };
 
-  const handleLogin = () => {
-    alert("Nice, you pressed a button!");
+  const handleLogin = async () => {
+    try {
+      const auth = getAuth();
+      await signInWithEmailAndPassword(auth, email, password);
+      //TODO: Handle successful login like navigating home
+      alert('Login successful');
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error('Login Error:', error);
+      alert('Login failed. Please check your credentials.');
+    }
   };
 
   return (
     <ImageBackground
-      source={require("../../../assets/images/LoginScreen-bg.jpg")}
+      source={require('../../../assets/images/LoginScreen-bg.jpg')}
       style={styles.background}
     >
       <View style={styles.container}>
@@ -53,12 +62,12 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>
-          <Text style={[styles.footerText, { color: "white" }]}>
-            Don't have an account?{" "}
+          <Text style={[styles.footerText, { color: 'white' }]}>
+            Don't have an account?{' '}
           </Text>
           <Text
             onPress={onSingUpPress}
-            style={[styles.footerText, { color: "red" }]}
+            style={[styles.footerText, { color: 'red' }]}
           >
             Sign up
           </Text>
