@@ -11,6 +11,7 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons';
+import styles from './styles';
 
 export default function HomeScreen({ navigation }) {
   const [fullName, setFullName] = useState('Guest');
@@ -52,7 +53,10 @@ export default function HomeScreen({ navigation }) {
               View, Edit, and Manage Your Profile
             </Text>
           </Pressable>
-          <Pressable style={styles.button}>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate('DataEntry')}
+          >
             <View style={styles.iconContainer}>
               <FontAwesome name="pencil-square-o" size={30} color="white" />
             </View>
@@ -111,54 +115,3 @@ export default function HomeScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#f2f2f2',
-    flex: 1,
-  },
-  headerContainer: {
-    height: '20%',
-    paddingHorizontal: 20,
-  },
-  title: {
-    fontSize: 24,
-    position: 'absolute',
-    top: 90,
-    left: 20,
-  },
-  gridContainer: {
-    height: '75%',
-  },
-  rowContainer: {
-    height: '33.33%',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  button: {
-    width: '45%',
-    height: '90%',
-    backgroundColor: 'white',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonLabel: {
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  buttonDesc: {
-    color: 'gray',
-    paddingHorizontal: 10,
-  },
-});

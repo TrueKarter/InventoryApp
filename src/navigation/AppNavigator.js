@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen/LoginScreen';
 import RegistrationScreen from '../screens/RegistrationScreen/RegistrationScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import DataEntryScreen from '../screens/DataEntryScreen/DataEntryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,11 @@ export default function AppNavigator() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DataEntry"
+          component={DataEntryScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
