@@ -34,6 +34,7 @@ export default function RegistrationScreen({ navigation }) {
       const userDocRef = await addDoc(collection(db, 'users'), {
         fullName: fullName,
         email: email,
+        pasasword: password,
       });
 
       //TODO: Handle user creation success here

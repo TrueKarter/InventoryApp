@@ -9,9 +9,10 @@ import {
   FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from '@expo/vector-icons';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [fullName, setFullName] = useState('Guest');
 
   useEffect(() => {
@@ -47,13 +48,16 @@ export default function HomeScreen() {
               <MaterialCommunityIcons name="account" size={30} color="white" />
             </View>
             <Text style={styles.buttonLabel}>Account</Text>
-            <Text style={styles.buttonDesc}>View and Manage Your Profile</Text>
+            <Text style={styles.buttonDesc}>
+              View, Edit, and Manage Your Profile
+            </Text>
           </Pressable>
           <Pressable style={styles.button}>
             <View style={styles.iconContainer}>
               <FontAwesome name="pencil-square-o" size={30} color="white" />
             </View>
-            <Text>Data Entry</Text>
+            <Text style={styles.buttonLabel}>Data Entry</Text>
+            <Text style={styles.buttonDesc}>Add an Item Into the Database</Text>
           </Pressable>
         </View>
         <View style={styles.rowContainer}>
@@ -61,18 +65,47 @@ export default function HomeScreen() {
             <View style={styles.iconContainer}>
               <Foundation name="page-remove" size={30} color="white" />
             </View>
-            <Text>Removal</Text>
+            <Text style={styles.buttonLabel}>Removal</Text>
+            <Text style={styles.buttonDesc}>
+              Remove an Item From the Database
+            </Text>
           </Pressable>
           <Pressable style={styles.button}>
             <View style={styles.iconContainer}>
               <Ionicons name="document-text" size={30} color="white" />
             </View>
-            <Text>Generate Report</Text>
+            <Text style={styles.buttonLabel}>Generate Report</Text>
+            <Text style={styles.buttonDesc}>
+              Generate a Report of the Database
+            </Text>
           </Pressable>
         </View>
         <View style={styles.rowContainer}>
-          <Pressable style={styles.button}></Pressable>
-          <Pressable style={styles.button}></Pressable>
+          <Pressable style={styles.button}>
+            <View style={styles.iconContainer}>
+              <MaterialCommunityIcons
+                name="database-eye-outline"
+                size={30}
+                color="white"
+              />
+            </View>
+            <Text style={styles.buttonLabel}>Display Items</Text>
+            <Text style={styles.buttonDesc}>
+              Display All Items Present in the Database
+            </Text>
+          </Pressable>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate('Login')}
+          >
+            <View style={styles.iconContainer}>
+              <MaterialIcons name="logout" size={30} color="white" />
+            </View>
+            <Text style={styles.buttonLabel}>Logout</Text>
+            <Text style={styles.buttonDesc}>
+              Logout and Return to Login Screen
+            </Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>
@@ -82,24 +115,22 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f2f2f2',
-    borderColor: 'red',
-    borderWidth: 1,
     flex: 1,
   },
   headerContainer: {
-    borderColor: 'orange',
-    borderWidth: 1,
     height: '20%',
     paddingHorizontal: 20,
   },
+  title: {
+    fontSize: 24,
+    position: 'absolute',
+    top: 90,
+    left: 20,
+  },
   gridContainer: {
     height: '75%',
-    borderColor: 'blue',
-    borderWidth: 1,
   },
   rowContainer: {
-    borderColor: 'green',
-    borderWidth: 1,
     height: '33.33%',
     flex: 1,
     flexDirection: 'row',
@@ -128,5 +159,6 @@ const styles = StyleSheet.create({
   },
   buttonDesc: {
     color: 'gray',
+    paddingHorizontal: 10,
   },
 });
