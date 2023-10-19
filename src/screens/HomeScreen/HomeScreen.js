@@ -65,7 +65,10 @@ export default function HomeScreen({ navigation }) {
           </Pressable>
         </View>
         <View style={styles.rowContainer}>
-          <Pressable style={styles.button}>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate('Removal')}
+          >
             <View style={styles.iconContainer}>
               <Foundation name="page-remove" size={30} color="white" />
             </View>
