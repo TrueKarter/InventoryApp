@@ -57,7 +57,9 @@ export default function HomeScreen({ navigation }) {
             style={styles.button}
             onPress={() => navigation.navigate('DataEntry')}
           >
-            <View style={styles.iconContainer}>
+            <View
+              style={[styles.iconContainer, { backgroundColor: '#118ab2' }]}
+            >
               <FontAwesome name="pencil-square-o" size={30} color="white" />
             </View>
             <Text style={styles.buttonLabel}>Data Entry</Text>
@@ -69,7 +71,9 @@ export default function HomeScreen({ navigation }) {
             style={styles.button}
             onPress={() => navigation.navigate('Removal')}
           >
-            <View style={styles.iconContainer}>
+            <View
+              style={[styles.iconContainer, { backgroundColor: '#a1c181' }]}
+            >
               <Foundation name="page-remove" size={30} color="white" />
             </View>
             <Text style={styles.buttonLabel}>Removal</Text>
