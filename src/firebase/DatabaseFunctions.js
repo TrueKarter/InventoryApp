@@ -1,4 +1,3 @@
-// DatabaseFunctions.js
 import { db } from './config';
 import {
   collection,
