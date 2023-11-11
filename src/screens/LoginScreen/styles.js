@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
     marginBottom: 18,
     padding: 15,
     width: "80%",
+    backgroundColor: "rgba(12,12,12,0.5)",
+    backdropFilter: "blur(5px)",
   },
   title: {
     color: "white",
