@@ -34,7 +34,11 @@ export default function AppNavigator() {
           component={DataEntryScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Removal" component={RemovalScreen} />
+        <Stack.Screen
+          name="Removal"
+          component={RemovalScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

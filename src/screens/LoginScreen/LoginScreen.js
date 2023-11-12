@@ -21,11 +21,13 @@ export default function LoginScreen({ navigation }) {
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
-      //TODO: Handle successful login like navigating home
+      setEmail('');
+      setPassword('');
       alert('Login successful');
       navigation.navigate('Home');
     } catch (error) {
-      console.error('Login Error:', error);
+      setEmail('');
+      setPassword('');
       alert('Login failed. Please check your credentials.');
     }
   };
