@@ -6,6 +6,7 @@ import RegistrationScreen from '../screens/RegistrationScreen/RegistrationScreen
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import DataEntryScreen from '../screens/DataEntryScreen/DataEntryScreen';
 import RemovalScreen from '../screens/RemovalScreen/RemovalScreen';
+import AccountScreen from '../screens/AccountScreen/AccountScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,11 @@ export default function AppNavigator() {
         <Stack.Screen
           name="Removal"
           component={RemovalScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Account"
+          component={AccountScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

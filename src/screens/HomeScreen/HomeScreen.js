@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, Dimensions } from 'react-native';
+import { View, Text, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getAuth } from 'firebase/auth';
 import { db } from '../../firebase/config';
@@ -15,6 +15,7 @@ import styles from './styles';
 
 export default function HomeScreen({ navigation }) {
   const [fullName, setFullName] = useState('Guest');
+  const [profilePicture, setProfilePicture] = useState(null);
 
   useEffect(() => {
     const auth = getAuth();
@@ -29,6 +30,7 @@ export default function HomeScreen({ navigation }) {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             setFullName(doc.data().fullName);
+            setProfilePicture(doc.data().profilePicture);
           });
         })
         .catch((error) => {
@@ -40,12 +42,23 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
+        {profilePicture && (
+          <Image
+            source={{ uri: profilePicture }}
+            style={styles.profilePicture}
+          />
+        )}
         <Text style={styles.title}>Welcome, {fullName}!</Text>
       </View>
       <View style={styles.gridContainer}>
         <View style={styles.rowContainer}>
-          <Pressable style={styles.button}>
-            <View style={styles.iconContainer}>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate('Account')}
+          >
+            <View
+              style={[styles.iconContainer, { backgroundColor: '#4a4e69' }]}
+            >
               <MaterialCommunityIcons name="account" size={30} color="white" />
             </View>
             <Text style={styles.buttonLabel}>Account</Text>

@@ -9,6 +9,13 @@ const styles = StyleSheet.create({
     height: '20%',
     paddingHorizontal: 20,
   },
+  profilePicture: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginLeft: 5,
+    marginTop: 15,
+  },
   title: {
     fontSize: 24,
     position: 'absolute',
