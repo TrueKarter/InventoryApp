@@ -28,10 +28,14 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
   const inventoryCollection = collection(db, 'inventory');
   const querySnapshot = await getDocs(inventoryCollection);
 
+  let upcFound = false;
+
   querySnapshot.forEach(async (document) => {
     const data = document.data();
 
     if (data.upc === upc) {
+      upcFound = true;
+
       try {
         const newQuantity = data.quantity - quantityToRemove;
 
@@ -47,10 +51,14 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
           alert('Item quantity updated in the database successfully.');
         }
       } catch (error) {
-        console.error(error);
+        alert(`Error updating quantity for UPC: ${upc}`, error);
       }
     }
   });
+
+  if (!upcFound) {
+    alert(`UPC: ${upc} not found. Please scan again.`);
+  }
 };
 
 export { addItemToDatabase, removeItemFromDatabase };

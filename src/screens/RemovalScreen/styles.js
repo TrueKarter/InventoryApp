@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  backButton: {
+    position: 'relative',
+    top: 30,
+    left: 15,
+  },
   flexContainer: {
     height: '80%',
     alignItems: 'center',
@@ -48,6 +53,24 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  cameraContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+  },
+  camera: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    backgroundColor: '#a1c181',
+    padding: 10,
+    borderRadius: 8,
   },
 });
 
