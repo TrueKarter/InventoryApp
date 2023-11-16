@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
+  headerBackButton: {
+    position: 'absolute',
+    top: '70%',
+    left: '2%',
+  },
   accountDetailsContainer: {
     paddingHorizontal: 20,
     marginTop: 20,

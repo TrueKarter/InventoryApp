@@ -6,6 +6,7 @@ import { query, where, collection, getDocs } from 'firebase/firestore';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { updateDoc, doc } from 'firebase/firestore';
+import { Ionicons } from '@expo/vector-icons';
 import styles from './styles';
 
 export default function AccountScreen({ navigation }) {
@@ -80,6 +81,13 @@ export default function AccountScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
+        <Ionicons
+          style={styles.headerBackButton}
+          name="arrow-back"
+          size={26}
+          color="white"
+          onPress={() => navigation.navigate('Home')}
+        />
         <Text style={styles.title}>Account Details</Text>
       </View>
       <View style={styles.imageContainer}>
