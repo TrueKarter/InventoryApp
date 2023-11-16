@@ -63,14 +63,11 @@ export default function LoginScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
-        <View style={styles.footerContainer}>
-          <Text style={[styles.footerText, { color: 'white' }]}>
+        <View style={styles.textContainer}>
+          <Text style={[styles.text, { color: 'white' }]}>
             Don't have an account?{' '}
           </Text>
-          <Text
-            onPress={onSingUpPress}
-            style={[styles.footerText, { color: 'red' }]}
-          >
+          <Text onPress={onSingUpPress} style={[styles.text, { color: 'red' }]}>
             Sign up
           </Text>
         </View>
