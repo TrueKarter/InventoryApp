@@ -82,6 +82,7 @@ export default function DataEntryScreen({ navigation }) {
                 value={upc}
                 onChangeText={(upc) => setUpc(upc)}
                 editable={!scanned}
+                keyboardType="numeric"
               />
             )}
             {isCameraOpen && hasPermission && (
@@ -103,6 +104,7 @@ export default function DataEntryScreen({ navigation }) {
               placeholder="Quantity"
               value={quantity}
               onChangeText={(quantity) => setQuantity(quantity)}
+              keyboardType="numeric"
             />
             <TextInput
               style={styles.input}
