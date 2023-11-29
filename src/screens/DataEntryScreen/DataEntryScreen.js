@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { addItemToDatabase } from '../../firebase/DatabaseFunctions';
 import {
   View,
@@ -34,28 +34,48 @@ export default function DataEntryScreen({ navigation }) {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    setUpc(data);
-    setIsCameraOpen(false);
-  };
+    const handleBarCodeScanned = ({ type, data }) => {
+      setScanned(true);
+      setUpc(data);
+  // left camera open to continuously scan
+      setIsCameraOpen(true);
+      ref_quantity.current.focus();
+    };
 
-  const handleBarcodeIconPress = () => {
-    setScanned(false);
-    setIsCameraOpen(!isCameraOpen);
-  };
-
-  const handleAddItem = () => {
-    const quantityNumber = parseFloat(quantity);
-    addItemToDatabase(upc, quantityNumber, zone, aisle, shelf);
-    setUpc('');
-    setQuantity('');
-    setZone('');
-    setAisle('');
-    setShelf('');
-    setScanned(false);
-  };
-
+    const handleBarcodeIconPress = () => {
+      setScanned(false);
+      setIsCameraOpen(!isCameraOpen);
+    };
+  // adds product to database
+  const handleAddUpc = () => {
+      const quantityNumber = parseFloat(quantity);
+      addItemToDatabase(upc, quantityNumber, zone, aisle, shelf);
+      setUpc('');
+      setQuantity('');
+      setScanned(false);
+    };
+  //exits zone to put product into new zone
+    const handleAddZone = () => {
+      setUpc('');
+      setQuantity('');
+      setZone('');
+      setShelf('');
+      setScanned(false);
+    };
+  //exits shelf to add product to new shelf
+  const handleAddShelf = () => {
+      setUpc('');
+      setQuantity('');
+      setShelf('');
+      setScanned(false);
+    };
+  //references to different fields
+  const ref_zone = useRef();
+  const ref_shelf = useRef();
+  const ref_upc = useRef();
+  const ref_quantity = useRef();
+  const ref_cam = useRef();
+  const ref_bar = useRef();
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -76,21 +96,46 @@ export default function DataEntryScreen({ navigation }) {
             >
               <AntDesign name="barcode" size={40} color="#118ab2" />
             </TouchableOpacity>
+             <TextInput                                      //inputs the zone value
+                style={styles.input}
+                placeholder="Zone"
+                value={zone}
+                autoFocus = {true}
+                onChangeText={(zone) => setZone(zone)}
+                returnKeyType ="next"
+                onSubmitEditing={() =>ref_shelf.current.focus()}
+                keyboardType = "numeric"
+                ref={ref_zone}
+            />
+            <TextInput                              //inputs shelf
+              style={styles.input}
+              placeholder="Shelf"
+              value={shelf}
+              onChangeText={(shelf) => setShelf(shelf)}
+              returnKeyType = "next"
+              onSubmitEditing ={()=>{!isCameraOpen ? ref_upc.current.focus():undefined }}
+              ref={ref_shelf}
+              keyboardType ="numeric"
+            />
             {!isCameraOpen && (
-              <TextInput
+              <TextInput                        //inputs upc info if camera not active
                 style={styles.input}
                 placeholder="UPC"
                 value={upc}
                 onChangeText={(upc) => setUpc(upc)}
+                returnKeyType = "next"
+                onSubmitEditing = {()=>ref_quantity.current.focus()}
+                ref={ref_upc}
                 editable={!scanned}
                 keyboardType="numeric"
               />
             )}
-            {isCameraOpen && hasPermission && (
+            {isCameraOpen && hasPermission && (         //inputs upc info via the camera
               <View style={styles.cameraContainer}>
                 <BarCodeScanner
                   onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                   style={styles.camera}
+
                 />
                 <TouchableOpacity
                   style={styles.closeButton}
@@ -98,36 +143,38 @@ export default function DataEntryScreen({ navigation }) {
                 >
                   <Text style={styles.buttonText}>Close Camera</Text>
                 </TouchableOpacity>
+
               </View>
+
             )}
-            <TextInput
+            <TextInput                          //input for quantity
               style={styles.input}
               placeholder="Quantity"
               value={quantity}
               onChangeText={(quantity) => setQuantity(quantity)}
+              returnKeyType = "done"
+              onSubmitEditing ={()=>{
+    //checks if the camera is open if false then keep looping for more product, if true then keep using camera
+              if(!isCameraOpen){
+              handleAddUpc();
+              ref_upc.current.focus();
+              }
+              else handleAddUpc();
+              } }
+           ref={ref_quantity}
               keyboardType="numeric"
             />
-            <TextInput
-              style={styles.input}
-              placeholder="Zone"
-              value={zone}
-              onChangeText={(zone) => setZone(zone)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Aisle"
-              value={aisle}
-              onChangeText={(aisle) => setAisle(aisle)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Shelf"
-              value={shelf}
-              onChangeText={(shelf) => setShelf(shelf)}
-            />
-            <TouchableOpacity style={styles.button} onPress={handleAddItem}>
-              <Text style={styles.buttonText}>Add Item</Text>
+
+            <TouchableOpacity style={styles.button} onPress={()=>{
+                handleAddShelf();
+                ref_shelf.current.focus()}}>
+              <Text style={styles.buttonText}>Exit Shelf</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={()=>{
+               handleAddZone();
+               ref_zone.current.focus()}}>
+             <Text style={styles.buttonText}>Exit Zone</Text>
+           </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
