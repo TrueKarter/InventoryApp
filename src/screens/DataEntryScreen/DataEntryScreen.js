@@ -9,8 +9,7 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
@@ -21,7 +20,6 @@ export default function DataEntryScreen({ navigation }) {
   const [upc, setUpc] = useState('');
   const [quantity, setQuantity] = useState('');
   const [zone, setZone] = useState('');
-  const [aisle, setAisle] = useState('');
   const [shelf, setShelf] = useState('');
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -49,7 +47,7 @@ export default function DataEntryScreen({ navigation }) {
   // adds product to database
   const handleAddUpc = () => {
       const quantityNumber = parseFloat(quantity);
-      addItemToDatabase(upc, quantityNumber, zone, aisle, shelf);
+      addItemToDatabase(upc, quantityNumber, zone, shelf);
       setUpc('');
       setQuantity('');
       setScanned(false);
@@ -76,6 +74,7 @@ export default function DataEntryScreen({ navigation }) {
   const ref_quantity = useRef();
   const ref_cam = useRef();
   const ref_bar = useRef();
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -84,19 +83,21 @@ export default function DataEntryScreen({ navigation }) {
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.navigate('Home')}
-            >
-              <Ionicons name="arrow-back-sharp" size={30} color="white" />
+             >
+              <Ionicons name="arrow-back-sharp" size={50} color="white" />
             </TouchableOpacity>
             <Text style={styles.headerText}>Data Entry Screen</Text>
           </View>
+
           <View style={styles.flexContainer}>
             <TouchableOpacity
               style={styles.barcodeIcon}
               onPress={handleBarcodeIconPress}
-            >
+             >
               <AntDesign name="barcode" size={40} color="#118ab2" />
             </TouchableOpacity>
-             <TextInput                                      //inputs the zone value
+
+            <TextInput                                      //inputs the zone value
                 style={styles.input}
                 placeholder="Zone"
                 value={zone}
@@ -154,7 +155,7 @@ export default function DataEntryScreen({ navigation }) {
               onChangeText={(quantity) => setQuantity(quantity)}
               returnKeyType = "done"
               onSubmitEditing ={()=>{
-    //checks if the camera is open if false then keep looping for more product, if true then keep using camera
+
               if(!isCameraOpen){
               handleAddUpc();
               ref_upc.current.focus();

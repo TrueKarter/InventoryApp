@@ -79,6 +79,7 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.buttonDesc}>Add an Item Into the Database</Text>
           </Pressable>
         </View>
+
         <View style={styles.rowContainer}>
           <Pressable
             style={styles.button}
@@ -94,8 +95,11 @@ export default function HomeScreen({ navigation }) {
               Remove an Item From the Database
             </Text>
           </Pressable>
-          <Pressable style={styles.button}>
-            <View style={styles.iconContainer}>
+          <Pressable
+            style={styles.button}
+            onPress = {() => navigation.navigate('GenerateReport')}
+          >
+            <View style={[styles.iconContainer, {backgroundColor: '#ff0000'}]}>
               <Ionicons name="document-text" size={30} color="white" />
             </View>
             <Text style={styles.buttonLabel}>Generate Report</Text>
@@ -104,6 +108,7 @@ export default function HomeScreen({ navigation }) {
             </Text>
           </Pressable>
         </View>
+
         <View style={styles.rowContainer}>
           <Pressable style={styles.button}>
             <View style={styles.iconContainer}>

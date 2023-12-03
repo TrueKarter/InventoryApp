@@ -6,14 +6,18 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  getFirestore,
+  query,
+  where
 } from 'firebase/firestore';
+import {RouteProp} from '@react-navigation/native';
 
-const addItemToDatabase = (upc, quantity, aisle, shelf) => {
+const addItemToDatabase = (upc, quantity, zone, shelf) => {
   const inventoryCollection = collection(db, 'inventory');
   addDoc(inventoryCollection, {
     upc,
     quantity,
-    aisle,
+    zone,
     shelf,
   })
     .then(() => {
@@ -37,7 +41,7 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
       upcFound = true;
 
       try {
-        const newQuantity = data.quantity - quantityToRemove;
+        const newQuantity = quantityToRemove;
 
         if (newQuantity <= 0) {
           await deleteDoc(doc(inventoryCollection, document.id));
@@ -59,6 +63,10 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
   if (!upcFound) {
     alert(`UPC: ${upc} not found. Please scan again.`);
   }
-};
+};   //end of removeItemFromDatabase
+
+
+
+    //end of retrieveData
 
 export { addItemToDatabase, removeItemFromDatabase };

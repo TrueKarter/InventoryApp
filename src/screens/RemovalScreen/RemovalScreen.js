@@ -7,7 +7,7 @@ import styles from './styles';
 
 export default function RemovalScreen({ navigation }) {
   const [upc, setUpc] = useState('');
-  const [quantityToRemove, setQuantityToRemove] = useState('1');
+  const [quantityToRemove, setQuantityToRemove] = useState('');
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function RemovalScreen({ navigation }) {
 
     removeItemFromDatabase(upc, quantityToRemoveNumber);
     setUpc('');
-    setQuantityToRemove('1');
+    setQuantityToRemove('');
   };
 
   return (
@@ -43,12 +43,13 @@ export default function RemovalScreen({ navigation }) {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate('Home')}
         >
-          <Ionicons name="arrow-back" size={40} color="black" />
+          <Ionicons name="arrow-back" size={45} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Removal Screen</Text>
       </View>
+
       <View style={styles.flexContainer}>
         <TouchableOpacity
           style={styles.barcodeIcon}
@@ -63,6 +64,7 @@ export default function RemovalScreen({ navigation }) {
             textAlign="center"
             value={upc}
             onChangeText={(upc) => setUpc(upc)}
+          keyboardType="numeric"
           />
         )}
         {isCameraOpen && hasPermission && (
@@ -81,14 +83,17 @@ export default function RemovalScreen({ navigation }) {
         )}
         <TextInput
           style={styles.quantityInput}
+          placeholder = "New Quantity"
           textAlign="center"
           value={quantityToRemove}
           onChangeText={(quantityToRemove) =>
             setQuantityToRemove(quantityToRemove)
+
           }
+          keyboardType = "numeric"
         />
         <TouchableOpacity style={styles.button} onPress={handleRemoveItem}>
-          <Text style={styles.buttonText}>REMOVE ITEM</Text>
+          <Text style={styles.buttonText}>UPDATE ITEM</Text>
         </TouchableOpacity>
       </View>
     </View>
