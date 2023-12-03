@@ -8,12 +8,12 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
-const addItemToDatabase = (upc, quantity, aisle, shelf) => {
+const addItemToDatabase = (upc, quantity, zone, shelf) => {
   const inventoryCollection = collection(db, 'inventory');
   addDoc(inventoryCollection, {
     upc,
     quantity,
-    aisle,
+    zone,
     shelf,
   })
     .then(() => {
@@ -37,7 +37,7 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
       upcFound = true;
 
       try {
-        const newQuantity = data.quantity - quantityToRemove;
+        const newQuantity = quantityToRemove;
 
         if (newQuantity <= 0) {
           await deleteDoc(doc(inventoryCollection, document.id));
@@ -59,6 +59,22 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
   if (!upcFound) {
     alert(`UPC: ${upc} not found. Please scan again.`);
   }
-};
+};   //end of removeItemFromDatabase
 
-export { addItemToDatabase, removeItemFromDatabase };
+const retrieveData  = async (ZoneMin, ZoneMax, ShelfMin, ShelfMax) =>{
+  const DataGet =[];
+  const inventoryCollection = collection(db, 'inventory');
+  const querySnapshot = await getDocs(inventoryCollection);
+  querySnapshot.forEach(async(document) => {
+    const data = document.data();
+    if( ZoneMin<=data.zone && data.zone<=Zone.Max){
+      if( ShelfMin <= data.shelf && data.shelf <=ShelfMax){
+        DataGet.push(data);
+      }
+    }
+  });
+  return DataGet;
+};
+    //end of retrieveData
+
+export { addItemToDatabase, removeItemFromDatabase, retrieveData };

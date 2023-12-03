@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 26,
     left: 15,
-    width: 40,
-    height: 40,
+    width: 70,
+    height: 70,
   },
   headerText: {
     fontSize: 24,

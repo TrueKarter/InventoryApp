@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import DataEntryScreen from '../screens/DataEntryScreen/DataEntryScreen';
 import RemovalScreen from '../screens/RemovalScreen/RemovalScreen';
 import AccountScreen from '../screens/AccountScreen/AccountScreen';
+import GenerateReportScreen from '../screens/GenerateReportScreen/GenerateReportScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DataEntry">
+      <Stack.Navigator initialRouteName="Removal">
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -44,6 +45,11 @@ export default function AppNavigator() {
           name="Account"
           component={AccountScreen}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+            name = "GenerateReport"
+            component = {GenerateReportScreen}
+            options = {{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
