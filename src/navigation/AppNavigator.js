@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Removal">
+      <Stack.Navigator initialRouteName="GenerateReport">
         <Stack.Screen
           name="Login"
           component={LoginScreen}

@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   flexContainer: {
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: '25%',
+      marginTop: '50%',
   },
   header: {
     backgroundColor: '#ff0000',

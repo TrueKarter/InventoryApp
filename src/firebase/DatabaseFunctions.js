@@ -6,7 +6,11 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  getFirestore,
+  query,
+  where
 } from 'firebase/firestore';
+import {RouteProp} from '@react-navigation/native';
 
 const addItemToDatabase = (upc, quantity, zone, shelf) => {
   const inventoryCollection = collection(db, 'inventory');
@@ -61,20 +65,8 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
   }
 };   //end of removeItemFromDatabase
 
-const retrieveData  = async (ZoneMin, ZoneMax, ShelfMin, ShelfMax) =>{
-  const DataGet =[];
-  const inventoryCollection = collection(db, 'inventory');
-  const querySnapshot = await getDocs(inventoryCollection);
-  querySnapshot.forEach(async(document) => {
-    const data = document.data();
-    if( ZoneMin<=data.zone && data.zone<=Zone.Max){
-      if( ShelfMin <= data.shelf && data.shelf <=ShelfMax){
-        DataGet.push(data);
-      }
-    }
-  });
-  return DataGet;
-};
+
+
     //end of retrieveData
 
-export { addItemToDatabase, removeItemFromDatabase, retrieveData };
+export { addItemToDatabase, removeItemFromDatabase };

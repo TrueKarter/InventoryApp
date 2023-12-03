@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { retrieveData } from '../../firebase/DatabaseFunctions';
+import { db } from '../../firebase/config';
+import {
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc,
+    updateDoc,
+    getFirestore,
+    query,
+    where } from 'firebase/firestore';
+
 import {
   View,
   Text,
@@ -8,6 +19,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -21,13 +33,30 @@ const [ ZoneRangeStart, setZRS ] = useState('')
 const [ ZoneRangeEnd, setZRE ] = useState('')
 const [ ShelfRangeStart, setSRS ] = useState('')
 const [ ShelfRangeEnd, setSRE ] = useState('')
+const [Data, setData] = useState('')
 
-const DataReceived = [];
-const handleDisplayData = (ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, ShelfRangeEnd)=>{
-   retrieveData(ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, ShelfRangeEnd);
+const retrieveData  = async (ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, ShelfRangeEnd) =>{
+  let DataGet =[];
+  const inventoryCollection = collection(db, 'inventory');
+  const querySnapshot = await getDocs(inventoryCollection);
+  for(const document of querySnapshot.docs){
+    const data = document.data();
+        if( ZoneRangeStart <= data.zone && data.zone <= ZoneRangeEnd){
+          if( ShelfRangeStart <= data.shelf && data.shelf <= ShelfRangeEnd){
+            DataGet.push(data);
+          }
+        }
+  }
+  return DataGet;
 };
 
-
+useEffect(() => {
+    const fetchData = async () => {
+        const Data = await retrieveData(ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, ShelfRangeEnd );
+        setData(Data);
+    };
+    fetchData();
+}, [ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, ShelfRangeEnd]);
 
 
 return(
@@ -87,13 +116,25 @@ return(
                 value = {ShelfRangeEnd}
                 onChangeText = {(ShelfRangeEnd) => setSRE(ShelfRangeEnd)}
             />
+          </View>
+
+          <View style = {{ margin:10, padding: 10, borderWidth:1, borderColor:'black', backgroundColor:'white'}}>
+            <Text>zone          shelf          upc               quantity</Text>
+            {Data && Data.length >0 && <FlatList
+              data={Data.map((obj, index) => ({id:index+1,...obj }))}
+              renderItem={({item}) =>
+              <View style ={{flex:1, margin:5}}>
+                  <Text>{item.zone} {item.shelf} {item.upc}</Text>
+
+                  <Text></Text>
+                  <Text>{item.quantity}</Text>
+              </View>
+                }
+                numColumns ={4}
+
+            />}
         </View>
 
-            <TouchableOpacity style ={[{margin:40},styles.button]} onPress={()=>{
-                //function stuff here;
-                }}>
-                <Text style={styles.buttonText}> Display </Text>
-            </TouchableOpacity>
 
      </View>
   </SafeAreaView>
