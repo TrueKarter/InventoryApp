@@ -43,7 +43,7 @@ const retrieveData  = async (ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, Shel
     const data = document.data();
         if( ZoneRangeStart <= data.zone && data.zone <= ZoneRangeEnd){
           if( ShelfRangeStart <= data.shelf && data.shelf <= ShelfRangeEnd){
-            DataGet.push(data);
+            DataGet.unshift(data);
           }
         }
   }
@@ -119,18 +119,16 @@ return(
           </View>
 
           <View style = {{ margin:10, padding: 10, borderWidth:1, borderColor:'black', backgroundColor:'white'}}>
-            <Text>zone          shelf          upc               quantity</Text>
+            <Text>zone        shelf      upc            quantity</Text>
             {Data && Data.length >0 && <FlatList
               data={Data.map((obj, index) => ({id:index+1,...obj }))}
               renderItem={({item}) =>
               <View style ={{flex:1, margin:5}}>
-                  <Text>{item.zone} {item.shelf} {item.upc}</Text>
+                  <Text>{item.zone}         {item.shelf}            {item.upc}        {item.quantity}</Text>
 
-                  <Text></Text>
-                  <Text>{item.quantity}</Text>
               </View>
                 }
-                numColumns ={4}
+
 
             />}
         </View>
