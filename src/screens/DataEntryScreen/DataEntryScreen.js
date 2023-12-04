@@ -169,12 +169,12 @@ export default function DataEntryScreen({ navigation }) {
             <TouchableOpacity style={styles.button} onPress={()=>{
                 handleAddShelf();
                 ref_shelf.current.focus()}}>
-              <Text style={styles.buttonText}>Exit Shelf</Text>
+              <Text style={styles.buttonText}>New Shelf</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={()=>{
                handleAddZone();
                ref_zone.current.focus()}}>
-             <Text style={styles.buttonText}>Exit Zone</Text>
+             <Text style={styles.buttonText}>New Zone</Text>
            </TouchableOpacity>
           </View>
         </ScrollView>
