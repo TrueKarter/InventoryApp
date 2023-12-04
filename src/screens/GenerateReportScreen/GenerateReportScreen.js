@@ -39,16 +39,32 @@ const retrieveData  = async (ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, Shel
   let DataGet =[];
   const inventoryCollection = collection(db, 'inventory');
   const querySnapshot = await getDocs(inventoryCollection);
-  for(const document of querySnapshot.docs){
-    const data = document.data();
-        if( ZoneRangeStart <= data.zone && data.zone <= ZoneRangeEnd){
-          if( ShelfRangeStart <= data.shelf && data.shelf <= ShelfRangeEnd){
-            DataGet.unshift(data);
-          }
+
+  const zoneGroupedData = querySnapshot.docs.reduce((acc, document) => {
+      const data = document.data();
+      // check if the zone meets the criteria
+      if( ZoneRangeStart <= data.zone && data.zone <= ZoneRangeEnd){
+        // if the zone key already exists in the accumulator object, push the data to the array
+        if (acc[data.zone]) {
+          acc[data.zone].unshift(data);
+        } else {
+          // otherwise, create a new key-value pair with the zone and an array with the data
+          acc[data.zone] = [data];
         }
-  }
-  return DataGet;
-};
+      }
+      return acc;
+    }, {});
+    // loop through the object keys, which are the zones
+    for (const zone of Object.keys(zoneGroupedData)) {
+      // filter the data by shelf range within each zone group
+      const shelfFilteredData = zoneGroupedData[zone].filter(data => {
+        return ShelfRangeStart <= data.shelf && data.shelf <= ShelfRangeEnd;
+      });
+      // add the filtered data to the DataGet array
+      DataGet.push(...shelfFilteredData);
+    }
+    return DataGet;
+  };
 
 useEffect(() => {
     const fetchData = async () => {
