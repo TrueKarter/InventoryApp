@@ -49,11 +49,23 @@ export default function DataEntryScreen({ navigation }) {
 
   /* Handle adding UPC to the database */
   const handleAddUpc = () => {
+    /* Validate empty fields before adding the item */
+    if (
+      upc.trim() === '' ||
+      quantity.trim() === '' ||
+      zone.trim() === '' ||
+      shelf.trim() === ''
+    ) {
+      alert('Please fill out all fields before adding the item.');
+      return;
+    }
+
     const quantityNumber = parseFloat(quantity);
     addItemToDatabase(upc, quantityNumber, zone, shelf);
     setUpc('');
     setQuantity('');
     setScanned(false);
+    ref_upc.current.blur();
   };
 
   /* Handle adding Zone to the database */
