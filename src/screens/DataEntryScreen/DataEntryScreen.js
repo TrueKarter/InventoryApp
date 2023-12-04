@@ -3,28 +3,29 @@ import { addItemToDatabase } from '../../firebase/DatabaseFunctions';
 import {
   View,
   Text,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
 } from 'react-native';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 
-const { width, height } = Dimensions.get('window');
-
+/* DataEntryScreen component for entering item data into the database */
 export default function DataEntryScreen({ navigation }) {
+  /* State variables to manage input data */
   const [upc, setUpc] = useState('');
   const [quantity, setQuantity] = useState('');
   const [zone, setZone] = useState('');
   const [shelf, setShelf] = useState('');
+
+  /* State variables for barcode scanner */
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
+  /* Request camera permissions on component mount */
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -32,6 +33,7 @@ export default function DataEntryScreen({ navigation }) {
     })();
   }, []);
 
+  /* Handle barcode scanned event */
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setUpc(data);
@@ -39,11 +41,13 @@ export default function DataEntryScreen({ navigation }) {
     ref_quantity.current.focus();
   };
 
+  /* Handle barcode icon press to open/close camera */
   const handleBarcodeIconPress = () => {
     setScanned(false);
     setIsCameraOpen(!isCameraOpen);
   };
-  // adds product to database
+
+  /* Handle adding UPC to the database */
   const handleAddUpc = () => {
     const quantityNumber = parseFloat(quantity);
     addItemToDatabase(upc, quantityNumber, zone, shelf);
@@ -51,7 +55,8 @@ export default function DataEntryScreen({ navigation }) {
     setQuantity('');
     setScanned(false);
   };
-  //exits zone to put product into new zone
+
+  /* Handle adding Zone to the database */
   const handleAddZone = () => {
     setUpc('');
     setQuantity('');
@@ -59,20 +64,20 @@ export default function DataEntryScreen({ navigation }) {
     setShelf('');
     setScanned(false);
   };
-  //exits shelf to add product to new shelf
+
+  /* Handle adding Shelf to the database */
   const handleAddShelf = () => {
     setUpc('');
     setQuantity('');
     setShelf('');
     setScanned(false);
   };
-  //references to different fields
+
+  /* Refs for focusing on input fields */
   const ref_zone = useRef();
   const ref_shelf = useRef();
   const ref_upc = useRef();
   const ref_quantity = useRef();
-  const ref_cam = useRef();
-  const ref_bar = useRef();
 
   return (
     <SafeAreaView>
@@ -96,7 +101,7 @@ export default function DataEntryScreen({ navigation }) {
               <AntDesign name="barcode" size={40} color="#118ab2" />
             </TouchableOpacity>
 
-            <TextInput //inputs the zone value
+            <TextInput
               style={styles.input}
               placeholder="Zone"
               value={zone}
@@ -107,7 +112,7 @@ export default function DataEntryScreen({ navigation }) {
               keyboardType="numeric"
               ref={ref_zone}
             />
-            <TextInput //inputs shelf
+            <TextInput
               style={styles.input}
               placeholder="Shelf"
               value={shelf}
@@ -120,7 +125,7 @@ export default function DataEntryScreen({ navigation }) {
               keyboardType="numeric"
             />
             {!isCameraOpen && (
-              <TextInput //inputs upc info if camera not active
+              <TextInput
                 style={styles.input}
                 placeholder="UPC"
                 value={upc}
@@ -132,24 +137,21 @@ export default function DataEntryScreen({ navigation }) {
                 keyboardType="numeric"
               />
             )}
-            {isCameraOpen &&
-              hasPermission && ( //inputs upc info via the camera
-                <View style={styles.cameraContainer}>
-                  <BarCodeScanner
-                    onBarCodeScanned={
-                      scanned ? undefined : handleBarCodeScanned
-                    }
-                    style={styles.camera}
-                  />
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={() => setIsCameraOpen(false)}
-                  >
-                    <Text style={styles.buttonText}>Close Camera</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            <TextInput //input for quantity
+            {isCameraOpen && hasPermission && (
+              <View style={styles.cameraContainer}>
+                <BarCodeScanner
+                  onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                  style={styles.camera}
+                />
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setIsCameraOpen(false)}
+                >
+                  <Text style={styles.buttonText}>Close Camera</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            <TextInput
               style={styles.input}
               placeholder="Quantity"
               value={quantity}

@@ -1,3 +1,4 @@
+/* Import necessary components and functions from React, React Native, and Expo */
 import React, { useState, useEffect } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
@@ -5,7 +6,9 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { removeItemFromDatabase } from '../../firebase/DatabaseFunctions';
 import styles from './styles';
 
+/* Functional component for the Removal Screen */
 export default function RemovalScreen({ navigation }) {
+  /* State variables to manage UPC, quantity to remove, zone, shelf, camera permission, and barcode scanning */
   const [upc, setUpc] = useState('');
   const [quantityToRemove, setQuantityToRemove] = useState('1');
   const [zone, setZone] = useState('');
@@ -14,6 +17,7 @@ export default function RemovalScreen({ navigation }) {
   const [scanned, setScanned] = useState(false);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
+  /* useEffect to request camera permissions on component mount */
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -21,27 +25,33 @@ export default function RemovalScreen({ navigation }) {
     })();
   }, []);
 
+  /* Callback function when a barcode is scanned */
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setUpc(data);
     setIsCameraOpen(false);
   };
 
+  /* Callback function when barcode icon is pressed to toggle camera */
   const handleBarcodeIconPress = () => {
     setScanned(false);
     setIsCameraOpen(!isCameraOpen);
   };
 
+  /* Callback function to remove an item from the database */
   const handleRemoveItem = () => {
     const quantityToRemoveNumber = parseFloat(quantityToRemove);
 
-    removeItemFromDatabase(upc, quantityToRemoveNumber, zone, shelf);
+    removeItemFromDatabase(upc, quantityToRemoveNumber, zone, shelf); // Call the removeItemFromDatabase function with the provided parameters
+
+    /* Reset state variables */
     setUpc('');
     setQuantityToRemove('1');
     setZone('');
     setShelf('');
   };
 
+  /* JSX structure for the Removal Screen */
   return (
     <View style={styles.container}>
       <View style={styles.header}>

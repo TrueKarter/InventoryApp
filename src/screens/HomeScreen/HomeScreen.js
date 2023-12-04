@@ -14,31 +14,31 @@ import {
 import styles from './styles';
 
 export default function HomeScreen({ navigation }) {
+  /* State variables for user information */
   const [fullName, setFullName] = useState('Guest');
   const [profilePicture, setProfilePicture] = useState(null);
 
+  /* Effect to fetch user information on component mount */
   useEffect(() => {
-    const auth = getAuth();
+    const auth = getAuth(); // Get the current user from Firebase authentication
     const user = auth.currentUser;
 
+    /* If user is authenticated, fetch user details from Firestore */
     if (user) {
       const userEmail = user.email;
+      const q = query(collection(db, 'users'), where('email', '==', userEmail)); // Query to get user document based on email
 
-      const q = query(collection(db, 'users'), where('email', '==', userEmail));
-
-      getDocs(q)
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            setFullName(doc.data().fullName);
-            setProfilePicture(doc.data().profilePicture);
-          });
-        })
-        .catch((error) => {
-          console.error('Error getting user document:', error);
+      /* Fetch user details from Firestore */
+      getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setFullName(doc.data().fullName);
+          setProfilePicture(doc.data().profilePicture);
         });
+      });
     }
   }, []);
 
+  /* Render the HomeScreen UI */
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -97,9 +97,11 @@ export default function HomeScreen({ navigation }) {
           </Pressable>
           <Pressable
             style={styles.button}
-            onPress = {() => navigation.navigate('GenerateReport')}
+            onPress={() => navigation.navigate('GenerateReport')}
           >
-            <View style={[styles.iconContainer, {backgroundColor: '#ff0000'}]}>
+            <View
+              style={[styles.iconContainer, { backgroundColor: '#ff0000' }]}
+            >
               <Ionicons name="document-text" size={30} color="white" />
             </View>
             <Text style={styles.buttonLabel}>Generate Report</Text>

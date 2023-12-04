@@ -1,6 +1,10 @@
-import React from 'react';
+import React from 'react'; // Import React to enable the use of JSX syntax
+
+/* Import Navigation Container and createNativeStackNavigator from React Navigation */
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+/* Import the screens used in the navigation */
 import LoginScreen from '../screens/LoginScreen/LoginScreen';
 import RegistrationScreen from '../screens/RegistrationScreen/RegistrationScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
@@ -9,13 +13,16 @@ import RemovalScreen from '../screens/RemovalScreen/RemovalScreen';
 import AccountScreen from '../screens/AccountScreen/AccountScreen';
 import GenerateReportScreen from '../screens/GenerateReportScreen/GenerateReportScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator(); // Create a stack navigator using createNativeStackNavigator
 
-/*TODO: Change route name back to Login after done*/
+/* Define the main AppNavigator component as a functional component */
 export default function AppNavigator() {
   return (
+    /* Use NavigationContainer to wrap the entire navigation structure */
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Removal">
+      {/* Create a stack navigator with initial route name set to "Login" */}
+      <Stack.Navigator initialRouteName="Login">
+        {/* Define each screen in the stack with its name, component, and optional header options */}
         <Stack.Screen
           name="Login"
           component={LoginScreen}

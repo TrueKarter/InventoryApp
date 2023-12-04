@@ -6,16 +6,20 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../../firebase/config';
 import { addDoc, collection } from 'firebase/firestore';
 
+/* Fuctional component for the Registration Screen */
 export default function RegistrationScreen({ navigation }) {
+  /* State variables for user input */
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  /* Navigate to the login screen when the "Log in" link is pressed */
   const onFooterLinkPress = () => {
     navigation.navigate('Login');
   };
 
+  /* Handle the registration process when the "CREATE ACCOUNT" button is pressed */
   const onRegisterPress = async () => {
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
@@ -24,29 +28,30 @@ export default function RegistrationScreen({ navigation }) {
 
     try {
       const auth = getAuth();
+
+      /* Create a user with email and password */
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const user = userCredential.user;
 
+      /* Add user data to the 'users' collection in Firestore */
       const userDocRef = await addDoc(collection(db, 'users'), {
         fullName: fullName,
         email: email,
-        pasasword: password,
+        password: password,
       });
 
-      //TODO: Handle user creation success here
       alert('Account made successfully');
       navigation.navigate('Login');
     } catch (error) {
-      const errorCode = error.code;
       const errorMessage = error.message;
-      alert(errorMessage); // TODO: Handle the error here
+      alert(errorMessage);
     }
   };
 
+  /* JSX structure for the Registration Screen */
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Registration</Text>

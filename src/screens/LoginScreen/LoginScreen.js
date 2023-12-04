@@ -1,3 +1,4 @@
+/* Import necessary React and React Native components */
 import React, { useState } from 'react';
 import {
   ImageBackground,
@@ -6,32 +7,42 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import styles from './styles';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
+import styles from './styles'; // Import styles specific to LoginScreen
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'; // Import Firebase authentication functions
+
+/* Define the LoginScreen component */
 export default function LoginScreen({ navigation }) {
+  /* State variables to hold email and password input values */
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  /* Function to navigate to the Registration screen */
   const onSingUpPress = () => {
     navigation.navigate('Registration');
   };
 
+  /* Function to handle login attempt */
   const handleLogin = async () => {
     try {
-      const auth = getAuth();
-      await signInWithEmailAndPassword(auth, email, password);
+      const auth = getAuth(); // Get the authentication instance
+      await signInWithEmailAndPassword(auth, email, password); // Sign in the user with provided email and password
+
+      /* Clear input fields */
       setEmail('');
       setPassword('');
-      alert('Login successful');
-      navigation.navigate('Home');
+
+      navigation.navigate('Home'); // Navigate to the Home screen
     } catch (error) {
+      /* Clear input fields */
       setEmail('');
       setPassword('');
-      alert('Login failed. Please check your credentials.');
+
+      alert('Login failed. Please check your credentials.'); // Display login failure message
     }
   };
 
+  /* Render the LoginScreen UI */
   return (
     <ImageBackground
       source={require('../../../assets/images/LoginScreen-bg.jpg')}
