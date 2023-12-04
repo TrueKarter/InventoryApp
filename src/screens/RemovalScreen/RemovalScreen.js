@@ -40,6 +40,11 @@ export default function RemovalScreen({ navigation }) {
 
   /* Callback function to remove an item from the database */
   const handleRemoveItem = () => {
+    if (!upc || !zone || !shelf || !quantityToRemove) {
+      alert('Please fill out all fields before removing the item.');
+      return;
+    }
+
     const quantityToRemoveNumber = parseFloat(quantityToRemove);
 
     removeItemFromDatabase(upc, quantityToRemoveNumber, zone, shelf); // Call the removeItemFromDatabase function with the provided parameters
@@ -80,6 +85,8 @@ export default function RemovalScreen({ navigation }) {
             textAlign="center"
             value={upc}
             onChangeText={(upc) => setUpc(upc)}
+            keyboardType="numeric"
+            returnKeyType="done"
           />
         )}
 
@@ -126,6 +133,8 @@ export default function RemovalScreen({ navigation }) {
             onChangeText={(quantityToRemove) =>
               setQuantityToRemove(quantityToRemove)
             }
+            keyboardType="numeric"
+            returnKeyType="done"
           />
         )}
 
