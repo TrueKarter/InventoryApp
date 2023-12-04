@@ -2,29 +2,26 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
+    flex: 1,
     backgroundColor: '#fff',
   },
   header: {
     backgroundColor: '#a1c181',
-    paddingTop: 35,
-    paddingBottom: 35,
+    paddingTop: 30,
+    paddingBottom: 20,
   },
   headerText: {
     textAlign: 'center',
-    justifyContent: 'center',
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   backButton: {
-    position: 'absolute',
-        top: 26,
-        left: 15,
-        width: 40,
-        height: 40,
+    position: 'relative',
+    top: 30,
+    left: 15,
   },
   flexContainer: {
-    marginTop: '25%',
+    height: '80%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -38,7 +35,7 @@ const styles = StyleSheet.create({
   },
   quantityInput: {
     backgroundColor: 'rgba(12,12,12,0.1)',
-    width: '60%',
+    width: '20%',
     height: 60,
     marginBottom: 20,
     fontWeight: 'bold',

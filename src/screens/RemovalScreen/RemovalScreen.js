@@ -7,7 +7,9 @@ import styles from './styles';
 
 export default function RemovalScreen({ navigation }) {
   const [upc, setUpc] = useState('');
-  const [quantityToRemove, setQuantityToRemove] = useState('');
+  const [quantityToRemove, setQuantityToRemove] = useState('1');
+  const [zone, setZone] = useState('');
+  const [shelf, setShelf] = useState('');
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -33,9 +35,11 @@ export default function RemovalScreen({ navigation }) {
   const handleRemoveItem = () => {
     const quantityToRemoveNumber = parseFloat(quantityToRemove);
 
-    removeItemFromDatabase(upc, quantityToRemoveNumber);
+    removeItemFromDatabase(upc, quantityToRemoveNumber, zone, shelf);
     setUpc('');
-    setQuantityToRemove('');
+    setQuantityToRemove('1');
+    setZone('');
+    setShelf('');
   };
 
   return (
@@ -45,8 +49,9 @@ export default function RemovalScreen({ navigation }) {
           style={styles.backButton}
           onPress={() => navigation.navigate('Home')}
         >
-          <Ionicons name="arrow-back" size={45} color="black" />
+          <Ionicons name="arrow-back" size={40} color="black" />
         </TouchableOpacity>
+
         <Text style={styles.headerText}>Removal Screen</Text>
       </View>
 
@@ -57,6 +62,7 @@ export default function RemovalScreen({ navigation }) {
         >
           <AntDesign name="barcode" size={40} color="#a1c181" />
         </TouchableOpacity>
+
         {!isCameraOpen && (
           <TextInput
             style={styles.input}
@@ -64,9 +70,9 @@ export default function RemovalScreen({ navigation }) {
             textAlign="center"
             value={upc}
             onChangeText={(upc) => setUpc(upc)}
-          keyboardType="numeric"
           />
         )}
+
         {isCameraOpen && hasPermission && (
           <View style={styles.cameraContainer}>
             <BarCodeScanner
@@ -81,19 +87,40 @@ export default function RemovalScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         )}
-        <TextInput
-          style={styles.quantityInput}
-          placeholder = "New Quantity"
-          textAlign="center"
-          value={quantityToRemove}
-          onChangeText={(quantityToRemove) =>
-            setQuantityToRemove(quantityToRemove)
 
-          }
-          keyboardType = "numeric"
-        />
+        {!isCameraOpen && (
+          <TextInput
+            style={styles.input}
+            placeholder="Zone"
+            textAlign="center"
+            value={zone}
+            onChangeText={(zone) => setZone(zone)}
+          />
+        )}
+
+        {!isCameraOpen && (
+          <TextInput
+            style={styles.input}
+            placeholder="Shelf"
+            textAlign="center"
+            value={shelf}
+            onChangeText={(shelf) => setShelf(shelf)}
+          />
+        )}
+
+        {!isCameraOpen && (
+          <TextInput
+            style={styles.quantityInput}
+            textAlign="center"
+            value={quantityToRemove}
+            onChangeText={(quantityToRemove) =>
+              setQuantityToRemove(quantityToRemove)
+            }
+          />
+        )}
+
         <TouchableOpacity style={styles.button} onPress={handleRemoveItem}>
-          <Text style={styles.buttonText}>UPDATE ITEM</Text>
+          <Text style={styles.buttonText}>REMOVE ITEM</Text>
         </TouchableOpacity>
       </View>
     </View>

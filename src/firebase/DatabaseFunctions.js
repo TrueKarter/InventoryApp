@@ -8,9 +8,9 @@ import {
   updateDoc,
   getFirestore,
   query,
-  where
+  where,
 } from 'firebase/firestore';
-import {RouteProp} from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 
 const addItemToDatabase = (upc, quantity, zone, shelf) => {
   const inventoryCollection = collection(db, 'inventory');
@@ -28,20 +28,20 @@ const addItemToDatabase = (upc, quantity, zone, shelf) => {
     });
 };
 
-const removeItemFromDatabase = async (upc, quantityToRemove) => {
+const removeItemFromDatabase = async (upc, quantityToRemove, zone, shelf) => {
   const inventoryCollection = collection(db, 'inventory');
   const querySnapshot = await getDocs(inventoryCollection);
 
-  let upcFound = false;
+  let itemFound = false;
 
   querySnapshot.forEach(async (document) => {
     const data = document.data();
 
-    if (data.upc === upc) {
-      upcFound = true;
+    if (data.upc === upc && data.zone === zone && data.shelf === shelf) {
+      itemFound = true;
 
       try {
-        const newQuantity = quantityToRemove;
+        const newQuantity = data.quantity - quantityToRemove;
 
         if (newQuantity <= 0) {
           await deleteDoc(doc(inventoryCollection, document.id));
@@ -60,13 +60,11 @@ const removeItemFromDatabase = async (upc, quantityToRemove) => {
     }
   });
 
-  if (!upcFound) {
-    alert(`UPC: ${upc} not found. Please scan again.`);
+  if (!itemFound) {
+    alert('Item not found. Please check UPC, Zone, and Shelf and scan again.');
   }
-};   //end of removeItemFromDatabase
+}; //end of removeItemFromDatabase
 
-
-
-    //end of retrieveData
+//end of retrieveData
 
 export { addItemToDatabase, removeItemFromDatabase };
