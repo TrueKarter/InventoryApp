@@ -13,7 +13,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: '50%',
   },
-
+/*scroll container*/
+    Scroll:{
+      flex:1,
+      borderWidth: 1,
+      borderColor: 'black',
+      backgroundColor: 'white',
+      flexDirection: 'row',
+      flexWrap :'wrap',
+    },
   /* Styling for the header section */
   header: {
     backgroundColor: '#ff0000',

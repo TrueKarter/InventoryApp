@@ -1,7 +1,7 @@
 /* Import necessary React components and modules */
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase/config';
-import { collection, getDocs } from 'firebase/firestore';
+import { getForestore, collection, query,  orderBy, getDocs } from 'firebase/firestore';
 
 import {
   View,
@@ -31,31 +31,29 @@ export default function GenerateReportScreen({ navigation }) {
     shelfRangeEnd
   ) => {
     let dataGet = [];
-    const inventoryCollection = collection(db, 'inventory');
-    const querySnapshot = await getDocs(inventoryCollection);
+      const inventoryCollection = collection(db, 'inventory');
+      const querySnapshot = await getDocs(inventoryCollection);
 
-    /* Group data by zone and filter by shelf range */
-    const zoneGroupedData = querySnapshot.docs.reduce((acc, document) => {
-      const data = document.data();
-      if (zoneRangeStart <= data.zone && data.zone <= zoneRangeEnd) {
-        if (acc[data.zone]) {
-          acc[data.zone].unshift(data);
-        } else {
-          acc[data.zone] = [data];
+      /* Use a for loop to iterate over the querySnapshot array */
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        const document = querySnapshot.docs[i];
+        const data = document.data();
+        if (zoneRangeStart <= Number(data.zone) && Number(data.zone) <= zoneRangeEnd) {
+          if (shelfRangeStart <= Number(data.shelf) && Number(data.shelf) <= shelfRangeEnd) {
+            dataGet.push(data);
+          }
         }
       }
-      return acc;
-    }, {});
+      dataGet.sort(function(a,b){
+        return Number(a.shelf)-Number(b.shelf);
+        });
+        dataGet.sort(function(a,b){
+            return Number(a.zone)-Number(b.zone);
+            });
+      return dataGet;
+    };
+    /* Group data by zone and filter by shelf range */
 
-    /* Collect filtered data from each zone */
-    for (const zone of Object.keys(zoneGroupedData)) {
-      const shelfFilteredData = zoneGroupedData[zone].filter((data) => {
-        return shelfRangeStart <= data.shelf && data.shelf <= shelfRangeEnd;
-      });
-      dataGet.push(...shelfFilteredData);
-    }
-    return dataGet;
-  };
 
   /* Effect to fetch data when input values change */
   useEffect(() => {
