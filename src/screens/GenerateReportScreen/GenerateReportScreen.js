@@ -9,6 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  LogBox,
+  ScrollView
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +18,7 @@ import styles from './styles'; // Import the styles for this screen
 
 /* Define the GenerateReportScreen component */
 export default function GenerateReportScreen({ navigation }) {
+LogBox.ignoreAllLogs(true);
   /* State variables to store input values and retrieved data */
   const [zoneRangeStart, setZoneRangeStart] = useState('');
   const [zoneRangeEnd, setZoneRangeEnd] = useState('');
@@ -72,6 +75,7 @@ export default function GenerateReportScreen({ navigation }) {
   /* Render the GenerateReportScreen component */
   return (
     <SafeAreaView>
+    <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -176,6 +180,7 @@ export default function GenerateReportScreen({ navigation }) {
           )}
         </View>
       </View>
+    </ScrollView>
     </SafeAreaView>
   );
 }

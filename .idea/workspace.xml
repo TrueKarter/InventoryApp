@@ -7,7 +7,6 @@
     <list default="true" id="54a95f58-be3b-493a-953a-31d9e53bc8ff" name="Changes" comment="Removed aisle field in Data Entry screen.&#10;Reordered the data entry to zone, shelf, upc, quantity.&#10;Made it so that upon entering the &quot;Data Entry&quot;screen it immediatly moves the cursur to Zone.&#10;Everytime a user enters data into a field it moves to the next field.&#10;Once a quantity is entered it automatically adds the item to database then loops back to upc for more product staying in the zone and shelf.&#10;This also works when the camera is on.&#10;two buttons are added to leave a zone and leave a shelf.&#10;&#10;I need to figure out how to make it so that you must do things in order and cannot skip around.&#10;I have only worked on the DataEntry screen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/GenerateReportScreen/GenerateReportScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GenerateReportScreen/GenerateReportScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/GenerateReportScreen/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GenerateReportScreen/styles.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
