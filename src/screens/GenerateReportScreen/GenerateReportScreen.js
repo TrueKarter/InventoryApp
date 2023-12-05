@@ -17,27 +17,27 @@ import styles from './styles'; // Import the styles for this screen
 /* Define the GenerateReportScreen component */
 export default function GenerateReportScreen({ navigation }) {
   /* State variables to store input values and retrieved data */
-  const [ZoneRangeStart, setZRS] = useState('');
-  const [ZoneRangeEnd, setZRE] = useState('');
-  const [ShelfRangeStart, setSRS] = useState('');
-  const [ShelfRangeEnd, setSRE] = useState('');
-  const [Data, setData] = useState('');
+  const [zoneRangeStart, setZoneRangeStart] = useState('');
+  const [zoneRangeEnd, setZoneRangeEnd] = useState('');
+  const [shelfRangeStart, setShelfRangeStart] = useState('');
+  const [shelfRangeEnd, setShelfRangeEnd] = useState('');
+  const [data, setData] = useState('');
 
   /* Function to retrieve data based on input ranges */
   const retrieveData = async (
-    ZoneRangeStart,
-    ZoneRangeEnd,
-    ShelfRangeStart,
-    ShelfRangeEnd
+    zoneRangeStart,
+    zoneRangeEnd,
+    shelfRangeStart,
+    shelfRangeEnd
   ) => {
-    let DataGet = [];
+    let dataGet = [];
     const inventoryCollection = collection(db, 'inventory');
     const querySnapshot = await getDocs(inventoryCollection);
 
     /* Group data by zone and filter by shelf range */
     const zoneGroupedData = querySnapshot.docs.reduce((acc, document) => {
       const data = document.data();
-      if (ZoneRangeStart <= data.zone && data.zone <= ZoneRangeEnd) {
+      if (zoneRangeStart <= data.zone && data.zone <= zoneRangeEnd) {
         if (acc[data.zone]) {
           acc[data.zone].unshift(data);
         } else {
@@ -50,26 +50,26 @@ export default function GenerateReportScreen({ navigation }) {
     /* Collect filtered data from each zone */
     for (const zone of Object.keys(zoneGroupedData)) {
       const shelfFilteredData = zoneGroupedData[zone].filter((data) => {
-        return ShelfRangeStart <= data.shelf && data.shelf <= ShelfRangeEnd;
+        return shelfRangeStart <= data.shelf && data.shelf <= shelfRangeEnd;
       });
-      DataGet.push(...shelfFilteredData);
+      dataGet.push(...shelfFilteredData);
     }
-    return DataGet;
+    return dataGet;
   };
 
   /* Effect to fetch data when input values change */
   useEffect(() => {
     const fetchData = async () => {
       const Data = await retrieveData(
-        ZoneRangeStart,
-        ZoneRangeEnd,
-        ShelfRangeStart,
-        ShelfRangeEnd
+        zoneRangeStart,
+        zoneRangeEnd,
+        shelfRangeStart,
+        shelfRangeEnd
       );
       setData(Data);
     };
     fetchData();
-  }, [ZoneRangeStart, ZoneRangeEnd, ShelfRangeStart, ShelfRangeEnd]);
+  }, [zoneRangeStart, zoneRangeEnd, shelfRangeStart, shelfRangeEnd]);
 
   /* Render the GenerateReportScreen component */
   return (
@@ -94,16 +94,16 @@ export default function GenerateReportScreen({ navigation }) {
             style={[{ margin: 10 }, styles.input]}
             placeholder="Start"
             textAlign="center"
-            value={ZoneRangeStart}
-            onChangeText={(ZoneRangeStart) => setZRS(ZoneRangeStart)}
+            value={zoneRangeStart}
+            onChangeText={(zoneRangeStart) => setZoneRangeStart(zoneRangeStart)}
           />
 
           <TextInput
             style={[{ margin: 10 }, styles.input]}
             placeholder="End"
             textAlign="center"
-            value={ZoneRangeEnd}
-            onChangeText={(ZoneRangeEnd) => setZRE(ZoneRangeEnd)}
+            value={zoneRangeEnd}
+            onChangeText={(zoneRangeEnd) => setZoneRangeEnd(zoneRangeEnd)}
           />
         </View>
 
@@ -117,16 +117,18 @@ export default function GenerateReportScreen({ navigation }) {
             style={[{ margin: 10 }, styles.input]}
             placeholder="Start"
             textAlign="center"
-            value={ShelfRangeStart}
-            onChangeText={(ShelfRangeStart) => setSRS(ShelfRangeStart)}
+            value={shelfRangeStart}
+            onChangeText={(shelfRangeStart) =>
+              setShelfRangeStart(shelfRangeStart)
+            }
           />
 
           <TextInput
             style={[{ margin: 10 }, styles.input]}
             placeholder="End"
             textAlign="center"
-            value={ShelfRangeEnd}
-            onChangeText={(ShelfRangeEnd) => setSRE(ShelfRangeEnd)}
+            value={shelfRangeEnd}
+            onChangeText={(shelfRangeEnd) => setShelfRangeEnd(shelfRangeEnd)}
           />
         </View>
 
@@ -139,15 +141,37 @@ export default function GenerateReportScreen({ navigation }) {
             backgroundColor: 'white',
           }}
         >
-          <Text>zone shelf upc quantity</Text>
-          {Data && Data.length > 0 && (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginBottom: 5,
+            }}
+          >
+            <Text style={{ flex: 1, fontWeight: 'bold' }}>Zone</Text>
+            <Text style={{ flex: 1, fontWeight: 'bold' }}>Shelf</Text>
+            <Text style={{ flex: 1, fontWeight: 'bold' }}>UPC</Text>
+            <Text style={{ flex: 1, fontWeight: 'bold' }}>Quantity</Text>
+          </View>
+
+          {data && data.length > 0 && (
             <FlatList
-              data={Data.map((obj, index) => ({ id: index + 1, ...obj }))}
+              data={data.map((obj, index) => ({
+                id: index + 1,
+                ...obj,
+              }))}
               renderItem={({ item }) => (
-                <View style={{ flex: 1, margin: 5 }}>
-                  <Text>
-                    {item.zone} {item.shelf} {item.upc} {item.quantity}
-                  </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 5,
+                  }}
+                >
+                  <Text style={{ flex: 1 }}>{item.zone}</Text>
+                  <Text style={{ flex: 1 }}>{item.shelf}</Text>
+                  <Text style={{ flex: 1 }}>{item.upc}</Text>
+                  <Text style={{ flex: 1 }}>{item.quantity}</Text>
                 </View>
               )}
             />
