@@ -112,6 +112,8 @@ export default function RemovalScreen({ navigation }) {
             textAlign="center"
             value={zone}
             onChangeText={(zone) => setZone(zone)}
+            keyboardType="numeric"
+            returnKeyType="done"
           />
         )}
 
@@ -122,6 +124,8 @@ export default function RemovalScreen({ navigation }) {
             textAlign="center"
             value={shelf}
             onChangeText={(shelf) => setShelf(shelf)}
+            returnKeyType="done"
+            keyboardType="numeric"
           />
         )}
 

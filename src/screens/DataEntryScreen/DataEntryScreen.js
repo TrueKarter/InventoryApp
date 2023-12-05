@@ -119,7 +119,7 @@ export default function DataEntryScreen({ navigation }) {
               value={zone}
               autoFocus={true}
               onChangeText={(zone) => setZone(zone)}
-              returnKeyType="next"
+              returnKeyType="done"
               onSubmitEditing={() => ref_shelf.current.focus()}
               keyboardType="numeric"
               ref={ref_zone}
@@ -129,7 +129,7 @@ export default function DataEntryScreen({ navigation }) {
               placeholder="Shelf"
               value={shelf}
               onChangeText={(shelf) => setShelf(shelf)}
-              returnKeyType="next"
+              returnKeyType="done"
               onSubmitEditing={() => {
                 !isCameraOpen ? ref_upc.current.focus() : undefined;
               }}
@@ -142,11 +142,11 @@ export default function DataEntryScreen({ navigation }) {
                 placeholder="UPC"
                 value={upc}
                 onChangeText={(upc) => setUpc(upc)}
-                returnKeyType="next"
                 onSubmitEditing={() => ref_quantity.current.focus()}
                 ref={ref_upc}
                 editable={!scanned}
                 keyboardType="numeric"
+                returnKeyType="done"
               />
             )}
             {isCameraOpen && hasPermission && (
