@@ -112,24 +112,11 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         <View style={styles.rowContainer}>
-          <Pressable style={styles.button}>
-            <View style={styles.iconContainer}>
-              <MaterialCommunityIcons
-                name="database-eye-outline"
-                size={30}
-                color="white"
-              />
-            </View>
-            <Text style={styles.buttonLabel}>Display Items</Text>
-            <Text style={styles.buttonDesc}>
-              Display All Items Present in the Database
-            </Text>
-          </Pressable>
           <Pressable
             style={styles.button}
             onPress={() => navigation.navigate('Login')}
           >
-            <View style={styles.iconContainer}>
+            <View style={[styles.iconContainer, { backgroundColor: 'orange' }]}>
               <MaterialIcons name="logout" size={30} color="white" />
             </View>
             <Text style={styles.buttonLabel}>Logout</Text>
