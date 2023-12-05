@@ -21,7 +21,7 @@ export default function AppNavigator() {
     /* Use NavigationContainer to wrap the entire navigation structure */
     <NavigationContainer>
       {/* Create a stack navigator with initial route name set to "Login" */}
-      <Stack.Navigator initialRouteName="GenerateReport">
+      <Stack.Navigator initialRouteName="Login">
         {/* Define each screen in the stack with its name, component, and optional header options */}
         <Stack.Screen
           name="Login"
